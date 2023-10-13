@@ -6,7 +6,7 @@ import { getOpenApiSpec } from './utils/getOpenApiSpec';
 import { getOpenApiVersion, OpenApiVersion } from './utils/getOpenApiVersion';
 import { isString } from './utils/isString';
 import { postProcessClient } from './utils/postProcessClient';
-import { registerHandlebarTemplates } from './utils/registerHandlebarTemplates';
+import { PartialsOverwrite, registerHandlebarTemplates, TemplatesOverwrite } from './utils/registerHandlebarTemplates';
 import { writeClient } from './utils/writeClient';
 
 export { HttpClient } from './HttpClient';
@@ -28,6 +28,8 @@ export type Options = {
     postfixModels?: string;
     request?: string;
     write?: boolean;
+    templatesOverride?: TemplatesOverwrite;
+    partialsOverride?: PartialsOverwrite;
 };
 
 /**
@@ -66,6 +68,8 @@ export const generate = async ({
     postfixModels = '',
     request,
     write = true,
+    templatesOverride = {},
+    partialsOverride = {},
 }: Options): Promise<void> => {
     const openApi = isString(input) ? await getOpenApiSpec(input) : input;
     const openApiVersion = getOpenApiVersion(openApi);
@@ -73,6 +77,8 @@ export const generate = async ({
         httpClient,
         useUnionTypes,
         useOptions,
+        templatesOverride,
+        partialsOverride,
     });
 
     switch (openApiVersion) {

@@ -1,0 +1,15 @@
+export enum TemplatesEnum {
+    'index' = 'index',
+    'client' = 'client',
+    'exportModel' = 'exportModel',
+    'exportSchema' = 'exportSchema',
+    'exportService' = 'exportService',
+    'coreSettings' = 'coreSettings',
+    'coreApiError' = 'coreApiError',
+    'coreApiRequestOptions' = 'coreApiRequestOptions',
+    'coreApiResult' = 'coreApiResult',
+    'coreCancelablePromise' = 'coreCancelablePromise',
+    'coreRequest' = 'coreRequest',
+    'coreBaseHttpRequest' = 'coreBaseHttpRequest',
+    'coreHttpRequest' = 'coreHttpRequest',
+}

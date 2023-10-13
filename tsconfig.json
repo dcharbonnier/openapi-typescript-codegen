@@ -19,7 +19,7 @@
     },
 
     "files": [
-        "./src/typings/hbs.d.ts"
+        "./src/typings/hbs.d.ts", "./src/utils/TemplatesEnum.ts", "./src/utils/PartialsEnum.ts", "./src/utils/defaultPartials.ts"
     ],
 
     "include": [
