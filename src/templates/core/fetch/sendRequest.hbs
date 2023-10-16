@@ -21,6 +21,9 @@ export const sendRequest = async (
 	}
 
 	onCancel(() => controller.abort());
-
-	return await fetch(url, request);
+	if(options.authentication) {
+		return await fetch(...await options.authentication.authenticateFetch(url, request));
+	} else {
+		return await fetch(url, request);
+	}
 };

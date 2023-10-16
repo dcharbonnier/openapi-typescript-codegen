@@ -8,6 +8,7 @@ export enum TemplatesEnum {
     'coreApiError' = 'coreApiError',
     'coreApiRequestOptions' = 'coreApiRequestOptions',
     'coreApiResult' = 'coreApiResult',
+    'coreAuthenticationManager' = 'coreAuthenticationManager',
     'coreCancelablePromise' = 'coreCancelablePromise',
     'coreRequest' = 'coreRequest',
     'coreBaseHttpRequest' = 'coreBaseHttpRequest',

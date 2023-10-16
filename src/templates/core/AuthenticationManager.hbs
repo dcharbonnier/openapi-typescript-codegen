@@ -1,0 +1,6 @@
+{{>header}}
+
+export interface AuthenticationManager {
+    authenticateFetch( input: NodeJS.fetch.RequestInfo,
+        init?: RequestInit): Promise<[NodeJS.fetch.RequestInfo, RequestInit|undefined]>;
+}

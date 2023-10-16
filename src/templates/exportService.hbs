@@ -25,6 +25,7 @@ import type { CancelablePromise } from '../core/CancelablePromise';
 import { BaseHttpRequest } from '../core/BaseHttpRequest';
 {{else}}
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
+import type { AuthenticationManager } from '../core/AuthenticationManager';
 {{/equals}}
 {{else}}
 import { OpenAPI } from '../core/OpenAPI';
@@ -39,7 +40,7 @@ import { request as __request } from '../core/request';
 export class {{{name}}}{{{@root.postfix}}} {
 	{{#if @root.exportClient}}
 
-	constructor(public readonly httpRequest: BaseHttpRequest) {}
+	constructor(public readonly httpRequest: BaseHttpRequest, public readonly authenticationManagers?: Map<string, AuthenticationManager>) {}
 	{{else}}
 	{{#equals @root.httpClient 'angular'}}
 
@@ -73,17 +74,37 @@ export class {{{name}}}{{{@root.postfix}}} {
 	{{#if @root.exportClient}}
 	{{#equals @root.httpClient 'angular'}}
 	public {{{name}}}({{>parameters}}): Observable<{{>result}}> {
+		{{#if security}}
+		if (this.authenticationManagers === undefined) {
+			throw new Error("AuthenticationManagers is required")
+		}
+		{{/if}}
 		return this.httpRequest.request({
 	{{else}}
 	public {{{name}}}({{>parameters}}): CancelablePromise<{{>result}}> {
+		{{#if security}}
+		if (this.authenticationManagers === undefined) {
+			throw new Error("AuthenticationManagers is required")
+		}
+		{{/if}}
 		return this.httpRequest.request({
 	{{/equals}}
 	{{else}}
 	{{#equals @root.httpClient 'angular'}}
 	public {{{name}}}({{>parameters}}): Observable<{{>result}}> {
+		{{#if security}}
+		if (this.authenticationManagers === undefined) {
+			throw new Error("AuthenticationManagers is required")
+		}
+		{{/if}}
 		return __request(OpenAPI, this.http, {
 	{{else}}
 	public static {{{name}}}({{>parameters}}): CancelablePromise<{{>result}}> {
+		{{#if security}}
+		if (this.authenticationManagers === undefined) {
+			throw new Error("AuthenticationManagers is required")
+		}
+		{{/if}}
 		return __request(OpenAPI, {
 	{{/equals}}
 	{{/if}}
@@ -95,6 +116,9 @@ export class {{{name}}}{{{@root.postfix}}} {
 				'{{{prop}}}': {{{name}}},
 				{{/each}}
 			},
+			{{/if}}
+			{{#if security}}
+			authentication: {{#each security}}this.authenticationManagers.get('{{{this}}}'){{#unless @last}} ?? {{/unless}}{{/each}},
 			{{/if}}
 			{{#if parametersCookie}}
 			cookies: {

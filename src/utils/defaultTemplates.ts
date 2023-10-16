@@ -2,6 +2,7 @@ import templateClient from '../templates/client.hbs';
 import templateCoreApiError from '../templates/core/ApiError.hbs';
 import templateCoreApiRequestOptions from '../templates/core/ApiRequestOptions.hbs';
 import templateCoreApiResult from '../templates/core/ApiResult.hbs';
+import templateCoreAuthenticationManager from '../templates/core/AuthenticationManager.hbs';
 import templateCoreBaseHttpRequest from '../templates/core/BaseHttpRequest.hbs';
 import templateCancelablePromise from '../templates/core/CancelablePromise.hbs';
 import templateCoreHttpRequest from '../templates/core/HttpRequest.hbs';
@@ -22,6 +23,7 @@ export const defaultTemplates: Record<TemplatesEnum, TemplateSpecification> = {
     [TemplatesEnum['coreSettings']]: templateCoreSettings,
     [TemplatesEnum['coreApiError']]: templateCoreApiError,
     [TemplatesEnum['coreApiRequestOptions']]: templateCoreApiRequestOptions,
+    [TemplatesEnum['coreAuthenticationManager']]: templateCoreAuthenticationManager,
     [TemplatesEnum['coreApiResult']]: templateCoreApiResult,
     [TemplatesEnum['coreCancelablePromise']]: templateCancelablePromise,
     [TemplatesEnum['coreRequest']]: templateCoreRequest,

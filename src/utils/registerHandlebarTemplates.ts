@@ -20,6 +20,7 @@ export interface Templates {
         settings: Handlebars.TemplateDelegate;
         apiError: Handlebars.TemplateDelegate;
         apiRequestOptions: Handlebars.TemplateDelegate;
+        authenticationManager: Handlebars.TemplateDelegate;
         apiResult: Handlebars.TemplateDelegate;
         cancelablePromise: Handlebars.TemplateDelegate;
         request: Handlebars.TemplateDelegate;
@@ -38,8 +39,9 @@ const getTemplate = (
 ): HandlebarsTemplateDelegate => {
     const template = Object.entries(templates).find(([key]) => key === index)?.[1];
     if (!template) {
-        throw new Error('Template not found');
+        throw new Error(`Template ${index} not found`);
     }
+
     if (typeof template === 'string') {
         return Handlebars.template(evalPrecompiledTemplate(precompile(template)));
     } else {
@@ -61,7 +63,6 @@ export const registerHandlebarTemplates = (root: {
     const partialsOverride = root.partialsOverride ?? {};
     const allTemplates = {
         ...defaultTemplates,
-
         ...templatesOverride,
     };
     const allPartials = {
@@ -69,6 +70,13 @@ export const registerHandlebarTemplates = (root: {
         ...partialsOverride,
     };
     registerHandlebarHelpers(root);
+
+    // Partials for the generations of the models, services, etc.
+    const keys = Object.keys(allPartials);
+
+    keys.forEach(key => {
+        Handlebars.registerPartial(key, getTemplate(key, allPartials));
+    });
 
     // Main templates (entry points for the files we write to disk)
     const templates: Templates = {
@@ -83,7 +91,7 @@ export const registerHandlebarTemplates = (root: {
             settings: getTemplate(TemplatesEnum.coreSettings, allTemplates),
             apiError: getTemplate(TemplatesEnum.coreApiError, allTemplates),
             apiRequestOptions: getTemplate(TemplatesEnum.coreApiRequestOptions, allTemplates),
-
+            authenticationManager: getTemplate(TemplatesEnum.coreAuthenticationManager, allTemplates),
             apiResult: getTemplate(TemplatesEnum.coreApiResult, allTemplates),
             cancelablePromise: getTemplate(TemplatesEnum.coreCancelablePromise, allTemplates),
             request: getTemplate(TemplatesEnum.coreRequest, allTemplates),
@@ -91,15 +99,7 @@ export const registerHandlebarTemplates = (root: {
             httpRequest: getTemplate(TemplatesEnum.coreHttpRequest, allTemplates),
         },
     };
-    // Partials for the generations of the models, services, etc.
-    const keys: Set<PartialsEnum | string> = new Set([
-        ...Object.keys(partialsOverride),
-        ...Object.keys(partialsOverride),
-    ]);
 
-    keys.forEach(key => {
-        Handlebars.registerPartial(key, getTemplate(key, allPartials));
-    });
     return templates;
 };
 
