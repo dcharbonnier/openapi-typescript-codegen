@@ -1,6 +1,6 @@
 {{>header}}
 
 export interface AuthenticationManager {
-    authenticateFetch( input: unknown,
-        init?: RequestInit): Promise<[unknown, RequestInit|undefined]>;
+    authenticateFetch<T = unknown>( input: T,
+        init?: RequestInit): Promise<[T, RequestInit|undefined]>;
 }
