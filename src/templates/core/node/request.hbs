@@ -79,10 +79,12 @@ export const request = <T>(config: OpenAPIConfig, options: ApiRequestOptions): C
 				const response = await sendRequest(options, url, body, formData, headers, onCancel);
 				const responseBody = await getResponseBody(response);
 				const responseHeader = getResponseHeader(response, options.responseHeader);
+                const requestId = response.headers.get('x-request-id');
 
 				const result: ApiResult = {
 					url,
 					ok: response.ok,
+					requestId: requestId,
 					status: response.status,
 					statusText: response.statusText,
 					body: responseHeader ?? responseBody,
