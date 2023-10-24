@@ -7,7 +7,7 @@ export class ApiError extends Error {
 	public readonly url: string;
 	public readonly status: number;
 	public readonly statusText: string;
-	public readonly requestId: string | null;
+	public readonly requestId?: string | null;
 	public readonly body: any;
 	public readonly request: ApiRequestOptions;
 
