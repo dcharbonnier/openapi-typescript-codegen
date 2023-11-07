@@ -34,6 +34,8 @@ exports[`v2 should generate: test/generated/v2/core/ApiRequestOptions.ts 1`] = `
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import { AuthenticationManager } from "./AuthenticationManager";
+
 export type ApiRequestOptions = {
     readonly method: 'GET' | 'PUT' | 'POST' | 'DELETE' | 'OPTIONS' | 'HEAD' | 'PATCH';
     readonly url: string;
@@ -46,6 +48,7 @@ export type ApiRequestOptions = {
     readonly mediaType?: string;
     readonly responseHeader?: string;
     readonly errors?: Record<number, string>;
+    readonly authentication?: AuthenticationManager;
 };
 "
 `;
@@ -62,6 +65,18 @@ export type ApiResult = {
     readonly statusText: string;
     readonly body: any;
 };
+"
+`;
+
+exports[`v2 should generate: test/generated/v2/core/AuthenticationManager.ts 1`] = `
+"/* generated using openapi-typescript-codegen -- do no edit */
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+export interface AuthenticationManager {
+    authenticateFetch( input: NodeJS.fetch.RequestInfo,
+        init?: RequestInit): Promise<[NodeJS.fetch.RequestInfo, RequestInit|undefined]>;
+}
 "
 `;
 
@@ -452,8 +467,11 @@ export const sendRequest = async (
     }
 
     onCancel(() => controller.abort());
-
-    return await fetch(url, request);
+    if(options.authentication) {
+        return await fetch(...await options.authentication.authenticateFetch(url, request));
+    } else {
+        return await fetch(url, request);
+    }
 };
 
 export const getResponseHeader = (response: Response, responseHeader?: string): string | undefined => {
@@ -3127,6 +3145,8 @@ exports[`v3 should generate: test/generated/v3/core/ApiRequestOptions.ts 1`] = `
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import { AuthenticationManager } from "./AuthenticationManager";
+
 export type ApiRequestOptions = {
     readonly method: 'GET' | 'PUT' | 'POST' | 'DELETE' | 'OPTIONS' | 'HEAD' | 'PATCH';
     readonly url: string;
@@ -3139,6 +3159,7 @@ export type ApiRequestOptions = {
     readonly mediaType?: string;
     readonly responseHeader?: string;
     readonly errors?: Record<number, string>;
+    readonly authentication?: AuthenticationManager;
 };
 "
 `;
@@ -3155,6 +3176,18 @@ export type ApiResult = {
     readonly statusText: string;
     readonly body: any;
 };
+"
+`;
+
+exports[`v3 should generate: test/generated/v3/core/AuthenticationManager.ts 1`] = `
+"/* generated using openapi-typescript-codegen -- do no edit */
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+export interface AuthenticationManager {
+    authenticateFetch( input: NodeJS.fetch.RequestInfo,
+        init?: RequestInit): Promise<[NodeJS.fetch.RequestInfo, RequestInit|undefined]>;
+}
 "
 `;
 
@@ -3545,8 +3578,11 @@ export const sendRequest = async (
     }
 
     onCancel(() => controller.abort());
-
-    return await fetch(url, request);
+    if(options.authentication) {
+        return await fetch(...await options.authentication.authenticateFetch(url, request));
+    } else {
+        return await fetch(url, request);
+    }
 };
 
 export const getResponseHeader = (response: Response, responseHeader?: string): string | undefined => {

@@ -26,6 +26,7 @@ import { BaseHttpRequest } from '../core/BaseHttpRequest';
 {{else}}
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 import type { AuthenticationManager } from '../core/AuthenticationManager';
+import type { ApiRequestOptions } from '../core/ApiRequestOptions';
 {{/equals}}
 {{else}}
 import { OpenAPI } from '../core/OpenAPI';
@@ -169,6 +170,7 @@ export class {{{name}}}{{{@root.postfix}}} {
 				{{/each}}
 			},
 			{{/if}}
+			...options ?? {}
 		});
 	}
 
